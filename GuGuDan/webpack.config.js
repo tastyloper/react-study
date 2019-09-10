@@ -1,20 +1,19 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  name: 'wordrelay-setting',
   mode: 'development', // 실서비스 : production
   devtool: 'eval', // 실서비스 : hidden-source-map
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.jsx', '.js'],
   },
 
-  entry: { // 입력
-    app: ['./client'],
+  entry: {
+    app: './client',
   },
-
-  module: { // entry를 읽어서 module을 적용해서 output으로 뺀다.
+  module: {
     rules: [{
-      test: /\.jsx?/,
+      test: /\.jsx?$/,
       loader: 'babel-loader',
       options: {
         presets: [
@@ -26,17 +25,15 @@ module.exports = {
           }],
           '@babel/preset-react'
         ],
-        plugins: [
-          '@babel/plugin-proposal-class-properties',
-          'react-hot-loader/babel'
-        ],
+        plugins: [],
       }
     }],
   },
-  
-  output: { // 출력
-    path: path.join(__dirname, 'dist'),
+  plugins: [
+    new webpack.LoaderOptionsPlugin({ debug: true }),
+  ],
+  output: {
     filename: 'app.js',
-    publicPath: '/dist/',
+    path: path.join(__dirname, 'dist'),
   },
 };
